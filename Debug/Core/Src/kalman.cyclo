@@ -1,3 +1,2 @@
-../Core/Src/kalman.c:10:6:KF_Init	1
-../Core/Src/kalman.c:46:6:KF_Predict	1
-../Core/Src/kalman.c:70:6:KF_Update	1
+../Core/Src/kalman.c:10:6:KF_Predict	1
+../Core/Src/kalman.c:34:6:KF_Update	1

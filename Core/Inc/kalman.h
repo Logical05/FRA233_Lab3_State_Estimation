@@ -15,9 +15,9 @@ typedef struct {
 	float Q[2][2];     // process noise
 	float H[2];        // measurement matrix (1x2)
 	float R;           // measurement noise
+	float K[2];        // Kalman gain
 } KF_TypeDef;
 
-void KF_Init(KF_TypeDef*, float, float, float);
 void KF_Predict(KF_TypeDef*);
 void KF_Update(KF_TypeDef*, float);
 

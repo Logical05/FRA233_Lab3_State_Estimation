@@ -17,6 +17,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define DT 0.06f	// 60 ms
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -27,13 +28,14 @@
 
 /* USER CODE BEGIN PV */
 HCSR04_TypeDef hcsr = { 0 };
-KF_TypeDef kf = { 0 };
+KF_TypeDef kf_1 = { 0 };
 float distance = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+void KF_One_Dimension_Init(KF_TypeDef*, float, float);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -67,6 +69,7 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_TIM1_Init();
 	MX_TIM3_Init();
+	MX_TIM4_Init();
 	/* USER CODE BEGIN 2 */
 
 	// HCSR04 (All Timer is MHz)
@@ -79,7 +82,8 @@ int main(void) {
 	HCSR04_Start();
 
 	// Kalman Filter
-	KF_Init(&kf, 0.00001f, 0.00001f, 0.06f); // 60 ms
+	HAL_TIM_Base_Start_IT(&htim4);	//16Hz
+	KF_One_Dimension_Init(&kf_1, 1e-5f, 5.945e-4f);
 
 	/* USER CODE END 2 */
 
@@ -89,12 +93,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 
-		distance = HCSR04_Read();
-
-		KF_Predict(&kf);
-		KF_Update(&kf, distance);
 	}
 	/* USER CODE END 3 */
 }
@@ -146,6 +145,31 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	HCSR04_Echo_Callback(htim);
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim == &htim4) {
+		distance = HCSR04_Read();
+		KF_Predict(&kf_1);
+		KF_Update(&kf_1, distance);
+	}
+}
+
+void KF_One_Dimension_Init(KF_TypeDef *kf, float Q, float R) {
+	// Initial state
+	kf->x[0] = 0.0f; // distance
+
+	// Covariance P
+	kf->P[0][0] = 1.0f;
+
+	kf->F[0][0] = 1.0f;
+
+	// Process noise (continuous white noise mapped to discrete)
+	kf->Q[0][0] = Q;
+
+	kf->H[0] = 1.0f;
+
+	// Measurement noise
+	kf->R = R; // tuned based on sensor noise
+}
 /* USER CODE END 4 */
 
 /**
