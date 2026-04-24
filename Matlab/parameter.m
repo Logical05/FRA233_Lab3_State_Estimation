@@ -1,24 +1,34 @@
-%{  
-This script for prepare data and parameters for parameter estimator.
-1. Load your collected data to MATLAB workspace.
-2. Run this script.
-3. Follow parameter estimator instruction.
-%}
-
-% Spring Constant (K) from experiment
-K = 0.625;
-m = 0.1;
-x0 = 18;
-% Optimization's parameters
-C = 0.1;     % Damping Coefficient
-
 % Load Data
-data = readtable("Data.csv");
+data = readtable("data/Data#5_2.csv");
+
+% Parameters
+BOX_MASS = 0.155;
+NUT_MASS = 0.038;
+NUT_NUM = 5;
+
+m = BOX_MASS + (NUT_MASS * NUT_NUM);
+x0 = data.kf_distance_0_(1);
+x_eq = data.kf_distance_0_(end);
+
+K = 34.92132738;    % Spring Constant
+C = 0.10795067;    % Damping Coefficient
 
 % Extract collected data
-Time = data.x;
-Dist = data.y;
+N = height(data);              % cleaner than size()
 
-% Plot 
-figure(Name='Response')
-plot(Time,Dist)
+% Use first half of data
+idx = 1:floor(N/2);
+
+Dist = data.kf_distance_0_(idx) - x_eq;
+
+% Time vector (match data length!)
+dt = 0.001;
+Time = (0:length(idx)-1)' * dt;
+
+% Plot
+figure('Name','Response','Color','white')
+plot(Time,Dist,'LineWidth',2)
+grid on
+xlabel('Time (s)')
+ylabel('Displacement (m)')
+title('System Response')

@@ -63,5 +63,7 @@ void HCSR04_Stop() {
 }
 
 float HCSR04_Read() {
-	return _Distance;
+	float dist = _Distance;
+//	_Distance = 0;
+	return dist;
 }

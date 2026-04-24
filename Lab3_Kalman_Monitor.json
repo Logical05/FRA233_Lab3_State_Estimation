@@ -1,0 +1,1048 @@
+[
+    {
+        "id": "f07e6156f5037370",
+        "type": "tab",
+        "label": "Lab3_Kalman",
+        "disabled": false,
+        "info": "# Basic flow to start Lab3_Kalman with STM32CubeMonitor."
+    },
+    {
+        "id": "f8053a89f2f59973",
+        "type": "ui_chartst",
+        "z": "f07e6156f5037370",
+        "group": "f9c34dde.1e2f4",
+        "name": "myChart",
+        "order": 4,
+        "width": 15,
+        "height": 9,
+        "chartType": "line",
+        "curveType": "linear",
+        "duration": "10",
+        "ymin": "",
+        "ymax": "",
+        "x": 580,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6f07d7fb4066794c",
+        "type": "acquisition out",
+        "z": "f07e6156f5037370",
+        "name": "myProbe_Out",
+        "probeconfig": "89bd5b942e419d1f",
+        "x": 740,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2751edd2f5299f29",
+        "type": "acquisition in",
+        "z": "f07e6156f5037370",
+        "name": "myProbe_In",
+        "probeconfig": "89bd5b942e419d1f",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "83f22a8b083880d8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "eed8b386dd06854d",
+        "type": "variables",
+        "z": "f07e6156f5037370",
+        "groupname": "myVariables",
+        "accesspoint": 0,
+        "execonfig": "475ca67f62403d8c",
+        "variablelist": [],
+        "triggerstartmode": "manual",
+        "triggername": "distance",
+        "triggerthreshold": "30000",
+        "frequency": "",
+        "frequencyType": "1000",
+        "snapshotheader": "",
+        "mode": "direct",
+        "lastImportedTime": 1777045148215,
+        "openStatus": true,
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "6f07d7fb4066794c",
+                "0ff19cedf60c574d"
+            ],
+            [
+                "09be75458dd029bd"
+            ]
+        ]
+    },
+    {
+        "id": "8c1c51aa46b49434",
+        "type": "ui_button",
+        "z": "f07e6156f5037370",
+        "name": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 3,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Clear Graphs",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "clear",
+        "x": 430,
+        "y": 380,
+        "wires": [
+            [
+                "f8053a89f2f59973"
+            ]
+        ]
+    },
+    {
+        "id": "f6f4acd43f27852a",
+        "type": "ui_button",
+        "z": "f07e6156f5037370",
+        "name": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 1,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "START Acquisition",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "start",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "eed8b386dd06854d"
+            ]
+        ]
+    },
+    {
+        "id": "6123bd14387b415c",
+        "type": "ui_button",
+        "z": "f07e6156f5037370",
+        "name": "",
+        "group": "f9c34dde.1e2f4",
+        "order": 2,
+        "width": 5,
+        "height": 1,
+        "passthru": true,
+        "label": "STOP Acquisition",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "stop",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "eed8b386dd06854d"
+            ]
+        ]
+    },
+    {
+        "id": "83f22a8b083880d8",
+        "type": "processing",
+        "z": "f07e6156f5037370",
+        "groupname": "myVariables",
+        "groupid": "d59587ff.cd1748",
+        "expressions": [],
+        "statistics": [],
+        "logmode": "no",
+        "x": 390,
+        "y": 280,
+        "wires": [
+            [
+                "f8053a89f2f59973"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "09be75458dd029bd",
+        "type": "ui_toast",
+        "z": "f07e6156f5037370",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "topic": "",
+        "name": "",
+        "x": 750,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "0ff19cedf60c574d",
+        "type": "ui_write",
+        "z": "f07e6156f5037370",
+        "group": "f9c34dde.1e2f4",
+        "name": "",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "x": 530,
+        "y": 60,
+        "wires": [
+            [
+                "6f07d7fb4066794c"
+            ]
+        ]
+    },
+    {
+        "id": "f9c34dde.1e2f4",
+        "type": "ui_group",
+        "name": "Chart",
+        "tab": "17d09b07.741a55",
+        "order": 1,
+        "disp": true,
+        "width": 15,
+        "collapse": false
+    },
+    {
+        "id": "89bd5b942e419d1f",
+        "type": "probe",
+        "probeid": "003C00423234510737333934",
+        "probename": "ST-Link v3 003C00423234510737333934",
+        "protocol": "SWD",
+        "frequency": "24000 kHz",
+        "probeproperty": "{\"SWD\":[\"24000 kHz\",\"8000 kHz\",\"3300 kHz\",\"1000 kHz\",\"200 kHz\",\"50 kHz\",\"5 kHz\"],\"JTAG\":[\"21333 kHz\",\"16000 kHz\",\"12000 kHz\",\"8000 kHz\",\"1777 kHz\",\"750 kHz\"]}",
+        "probeversion": "ST Link firmware version V3.J16",
+        "connectionType": "p2p",
+        "nickname": ""
+    },
+    {
+        "id": "475ca67f62403d8c",
+        "type": "exe-config",
+        "name": "Lab3_Kalman",
+        "exefile": "D:\\University\\Control\\LAB\\FRA233_Lab3_State_Estimation\\Debug\\FRA233_Lab3_State_Estimation.elf",
+        "exefolder": "D:\\University\\Control\\LAB\\FRA233_Lab3_State_Estimation\\Debug",
+        "exevariablelist": [
+            {
+                "address": "0x20000038",
+                "name": "_Distance",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x20000030",
+                "name": "_HCSR",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000034",
+                "name": "_State",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x08004408",
+                "name": "AHBPrescTable[0]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004412",
+                "name": "AHBPrescTable[10]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004413",
+                "name": "AHBPrescTable[11]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004414",
+                "name": "AHBPrescTable[12]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004415",
+                "name": "AHBPrescTable[13]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004416",
+                "name": "AHBPrescTable[14]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004417",
+                "name": "AHBPrescTable[15]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004409",
+                "name": "AHBPrescTable[1]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440a",
+                "name": "AHBPrescTable[2]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440b",
+                "name": "AHBPrescTable[3]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440c",
+                "name": "AHBPrescTable[4]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440d",
+                "name": "AHBPrescTable[5]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440e",
+                "name": "AHBPrescTable[6]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x0800440f",
+                "name": "AHBPrescTable[7]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004410",
+                "name": "AHBPrescTable[8]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x08004411",
+                "name": "AHBPrescTable[9]",
+                "type": 1,
+                "checked": false
+            },
+            {
+                "address": "0x20000054",
+                "name": "distance",
+                "type": 9,
+                "checked": true
+            },
+            {
+                "address": "0x20000048",
+                "name": "hcsr.ECHO_IC_Timer.htim",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000050",
+                "name": "hcsr.ECHO_IC_Timer.TIM_Active_Channal",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000004c",
+                "name": "hcsr.ECHO_IC_Timer.TIM_Channal",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000003c",
+                "name": "hcsr.TRIG_PWM_Timer.htim",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000044",
+                "name": "hcsr.TRIG_PWM_Timer.TIM_Active_Channal",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000040",
+                "name": "hcsr.TRIG_PWM_Timer.TIM_Channal",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000114",
+                "name": "htim1.Channel",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013c",
+                "name": "htim1.ChannelNState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013d",
+                "name": "htim1.ChannelNState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013e",
+                "name": "htim1.ChannelNState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013f",
+                "name": "htim1.ChannelNState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000136",
+                "name": "htim1.ChannelState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000137",
+                "name": "htim1.ChannelState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000138",
+                "name": "htim1.ChannelState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000139",
+                "name": "htim1.ChannelState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013a",
+                "name": "htim1.ChannelState[4]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000013b",
+                "name": "htim1.ChannelState[5]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000140",
+                "name": "htim1.DMABurstState",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000118",
+                "name": "htim1.hdma[0]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000011c",
+                "name": "htim1.hdma[1]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000120",
+                "name": "htim1.hdma[2]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000124",
+                "name": "htim1.hdma[3]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000128",
+                "name": "htim1.hdma[4]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000012c",
+                "name": "htim1.hdma[5]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000130",
+                "name": "htim1.hdma[6]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000110",
+                "name": "htim1.Init.AutoReloadPreload",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000108",
+                "name": "htim1.Init.ClockDivision",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000100",
+                "name": "htim1.Init.CounterMode",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000104",
+                "name": "htim1.Init.Period",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200000fc",
+                "name": "htim1.Init.Prescaler",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000010c",
+                "name": "htim1.Init.RepetitionCounter",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200000f8",
+                "name": "htim1.Instance",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000134",
+                "name": "htim1.Lock",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000135",
+                "name": "htim1.State",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000160",
+                "name": "htim3.Channel",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000188",
+                "name": "htim3.ChannelNState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000189",
+                "name": "htim3.ChannelNState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000018a",
+                "name": "htim3.ChannelNState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000018b",
+                "name": "htim3.ChannelNState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000182",
+                "name": "htim3.ChannelState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000183",
+                "name": "htim3.ChannelState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000184",
+                "name": "htim3.ChannelState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000185",
+                "name": "htim3.ChannelState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000186",
+                "name": "htim3.ChannelState[4]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000187",
+                "name": "htim3.ChannelState[5]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x2000018c",
+                "name": "htim3.DMABurstState",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000164",
+                "name": "htim3.hdma[0]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000168",
+                "name": "htim3.hdma[1]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000016c",
+                "name": "htim3.hdma[2]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000170",
+                "name": "htim3.hdma[3]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000174",
+                "name": "htim3.hdma[4]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000178",
+                "name": "htim3.hdma[5]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000017c",
+                "name": "htim3.hdma[6]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000015c",
+                "name": "htim3.Init.AutoReloadPreload",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000154",
+                "name": "htim3.Init.ClockDivision",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000014c",
+                "name": "htim3.Init.CounterMode",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000150",
+                "name": "htim3.Init.Period",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000148",
+                "name": "htim3.Init.Prescaler",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000158",
+                "name": "htim3.Init.RepetitionCounter",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000144",
+                "name": "htim3.Instance",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000180",
+                "name": "htim3.Lock",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000181",
+                "name": "htim3.State",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001ac",
+                "name": "htim4.Channel",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d4",
+                "name": "htim4.ChannelNState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d5",
+                "name": "htim4.ChannelNState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d6",
+                "name": "htim4.ChannelNState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d7",
+                "name": "htim4.ChannelNState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001ce",
+                "name": "htim4.ChannelState[0]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001cf",
+                "name": "htim4.ChannelState[1]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d0",
+                "name": "htim4.ChannelState[2]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d1",
+                "name": "htim4.ChannelState[3]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d2",
+                "name": "htim4.ChannelState[4]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d3",
+                "name": "htim4.ChannelState[5]",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001d8",
+                "name": "htim4.DMABurstState",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001b0",
+                "name": "htim4.hdma[0]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001b4",
+                "name": "htim4.hdma[1]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001b8",
+                "name": "htim4.hdma[2]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001bc",
+                "name": "htim4.hdma[3]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001c0",
+                "name": "htim4.hdma[4]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001c4",
+                "name": "htim4.hdma[5]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001c8",
+                "name": "htim4.hdma[6]",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001a8",
+                "name": "htim4.Init.AutoReloadPreload",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001a0",
+                "name": "htim4.Init.ClockDivision",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000198",
+                "name": "htim4.Init.CounterMode",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000019c",
+                "name": "htim4.Init.Period",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000194",
+                "name": "htim4.Init.Prescaler",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001a4",
+                "name": "htim4.Init.RepetitionCounter",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000190",
+                "name": "htim4.Instance",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x200001cc",
+                "name": "htim4.Lock",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x200001cd",
+                "name": "htim4.State",
+                "type": 2,
+                "checked": false
+            },
+            {
+                "address": "0x20000088",
+                "name": "kf[0].H[0]",
+                "type": 9
+            },
+            {
+                "address": "0x2000008c",
+                "name": "kf[0].H[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200000a4",
+                "name": "kf[0].K[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200000a8",
+                "name": "kf[0].K[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200000a0",
+                "name": "kf[0].R",
+                "type": 9,
+                "checked": true
+            },
+            {
+                "address": "0x20000060",
+                "name": "kf[0].x[0]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x20000064",
+                "name": "kf[0].x[1]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x200000d4",
+                "name": "kf[1].H[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200000d8",
+                "name": "kf[1].H[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200000f0",
+                "name": "kf[1].K[0]",
+                "type": 9
+            },
+            {
+                "address": "0x200000f4",
+                "name": "kf[1].K[1]",
+                "type": 9
+            },
+            {
+                "address": "0x200000ec",
+                "name": "kf[1].R",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x200000ac",
+                "name": "kf[1].x[0]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x200000b0",
+                "name": "kf[1].x[1]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x20000058",
+                "name": "kf_distance[0]",
+                "type": 9,
+                "checked": true
+            },
+            {
+                "address": "0x2000005c",
+                "name": "kf_distance[1]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x20000008",
+                "name": "SystemCoreClock",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000000",
+                "name": "tune_q[0]",
+                "type": 9,
+                "checked": true
+            },
+            {
+                "address": "0x20000004",
+                "name": "tune_q[1]",
+                "type": 9,
+                "checked": false
+            },
+            {
+                "address": "0x200001dc",
+                "name": "uwTick",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x20000010",
+                "name": "uwTickFreq",
+                "type": 5,
+                "checked": false
+            },
+            {
+                "address": "0x2000000c",
+                "name": "uwTickPrio",
+                "type": 5,
+                "checked": false
+            }
+        ],
+        "expand": true,
+        "filename": "FRA233_Lab3_State_Estimation.elf",
+        "exeModifiedTime": 1777042693825,
+        "configLastUpdate": 1777045147889
+    },
+    {
+        "id": "17d09b07.741a55",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "be055ade7482266c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@stm32/node-red-contrib-stm32cubemonitor": "2.5.0",
+            "node-red-dashboard": "3.6.5"
+        }
+    }
+]

@@ -17,25 +17,42 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define DT 0.06f	// 60 ms
+#define DT 1e-3f
+#define BOX_MASS 0.155f
+#define NUT_MASS 0.038f
+#define NUT_NUM 5
+#define K_SPRING 28.13852387f
+#define C_DAMPING 0.083941996f
+
+//#define X_EQ 9.706151498f // 5 Nut
+//#define X_EQ 11.06710543f // 4 Nut
+//#define X_EQ 12.78103434f // 3 Nut
+//#define X_EQ 14.33077597f // 2 Nut
+//#define X_EQ 15.78296892f // 1 Nut
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+#define TOTAL_MASS (BOX_MASS + (NUT_MASS * NUT_NUM))
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 HCSR04_TypeDef hcsr = { 0 };
-KF_TypeDef kf_1 = { 0 };
 float distance = 0;
+float kf_distance[2] = { 0 };
+float tune_q[2] = { 1e-7f, 0.048f };
+
+KF_TypeDef kf[2] = { 0 };
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void KF_One_Dimension_Init(KF_TypeDef*, float, float);
+void KF_Constant_Init(KF_TypeDef*, float, float);
+void KF_MSD_Init(KF_TypeDef*, float, float);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -82,8 +99,9 @@ int main(void) {
 	HCSR04_Start();
 
 	// Kalman Filter
-	HAL_TIM_Base_Start_IT(&htim4);	//16Hz
-	KF_One_Dimension_Init(&kf_1, 1e-5f, 5.945e-4f);
+	HAL_TIM_Base_Start_IT(&htim4);	// 1000Hz
+	KF_Constant_Init(&kf[0], tune_q[0], 6.04E-05f);
+//	KF_MSD_Init(&kf[1], tune_q[1], 6.04E-05f);
 
 	/* USER CODE END 2 */
 
@@ -93,7 +111,6 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-
 	}
 	/* USER CODE END 3 */
 }
@@ -147,29 +164,61 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim4) {
+		kf[0].Q[0][0] = tune_q[0];
+//		KF_SetQ_Discrete(&kf[1], tune_q[1], DT);
+
+		KF_Predict(&kf[0]);
+//		KF_Predict(&kf[1]);
+
 		distance = HCSR04_Read();
-		KF_Predict(&kf_1);
-		KF_Update(&kf_1, distance);
+
+		KF_Update(&kf[0], distance);
+//		KF_Update(&kf[1], distance - X_EQ);
+
+		kf_distance[0] = kf[0].x[0];
+//		kf_distance[1] = kf[1].x[0] + X_EQ;
 	}
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
 
-void KF_One_Dimension_Init(KF_TypeDef *kf, float Q, float R) {
-	// Initial state
-	kf->x[0] = 0.0f; // distance
+void KF_Constant_Init(KF_TypeDef *kf, float Q, float R) {
+	KF_Init(kf);
 
-	// Covariance P
-	kf->P[0][0] = 1.0f;
-
+	// Physics model
 	kf->F[0][0] = 1.0f;
+	kf->F[0][1] = 0.0f;
+	kf->F[1][0] = 0.0f;
+	kf->F[1][1] = 0.0f;
 
-	// Process noise (continuous white noise mapped to discrete)
+	// Process noise
 	kf->Q[0][0] = Q;
-
-	kf->H[0] = 1.0f;
+	kf->Q[0][1] = 0.0f;
+	kf->Q[1][0] = 0.0f;
+	kf->Q[1][1] = 0.0f;
 
 	// Measurement noise
-	kf->R = R; // tuned based on sensor noise
+	kf->R = R;
 }
+
+void KF_MSD_Init(KF_TypeDef *kf, float sigma_a, float R) {
+	KF_Init(kf);
+
+	// Physics model
+	float k_m = K_SPRING / TOTAL_MASS;
+	float c_m = C_DAMPING / TOTAL_MASS;
+
+	kf->F[0][0] = 1.0f;
+	kf->F[0][1] = DT;
+	kf->F[1][0] = -k_m * DT;
+	kf->F[1][1] = 1.0f - (c_m * DT);
+
+	// Process noise
+	KF_SetQ_Discrete(kf, sigma_a, DT);
+
+	// Measurement noise
+	kf->R = R;
+}
+
 /* USER CODE END 4 */
 
 /**

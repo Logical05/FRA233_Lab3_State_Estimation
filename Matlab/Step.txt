@@ -1,0 +1,12 @@
+K = 26.312;   % Spring Constant
+C = 0.0001;      % Damping Coefficient
+
+To
+
+K = 37.121220207565308;   % Spring Constant
+C = 0.0001;      % Damping Coefficient
+
+To
+
+K = 34.921327382823073;   % Spring Constant
+C = 0.107950669577367;      % Damping Coefficient
