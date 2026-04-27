@@ -1,5 +1,5 @@
 % Load Data
-data = readtable("data/Data#5_2.csv");
+data = readtable("data/1Nut.csv");
 
 % Parameters
 BOX_MASS = 0.155;
@@ -7,19 +7,19 @@ NUT_MASS = 0.038;
 NUT_NUM = 1;
 
 m = BOX_MASS + (NUT_MASS * NUT_NUM);
-x0 = data.kf_distance_0_(1);
-x_eq = data.kf_distance_0_(end);
+x0 = data.kf_distance_4_(1);
+x_eq = data.kf_distance_4_(end);
 
-K = 34.92132738;    % Spring Constant
-C = 0.10795067;    % Damping Coefficient
+K = 25.119;    % Spring Constant
+C = 0.001;    % Damping Coefficient
 
 % Extract collected data
 N = height(data);              % cleaner than size()
 
 % Use first half of data
-idx = 1:floor(N/2);
+idx = 50:floor(N/2)-200;
 
-Dist = data.kf_distance_0_(idx) - x_eq;
+Dist = data.kf_distance_4_(idx) - x_eq;
 
 % Time vector (match data length!)
 dt = 0.001;
