@@ -4,7 +4,7 @@ data = readtable("data/Data#5_2.csv");
 % Parameters
 BOX_MASS = 0.155;
 NUT_MASS = 0.038;
-NUT_NUM = 5;
+NUT_NUM = 1;
 
 m = BOX_MASS + (NUT_MASS * NUT_NUM);
 x0 = data.kf_distance_0_(1);

@@ -100,7 +100,7 @@ void KF_Update(KF_TypeDef *kf, float z) {
 	kf->P[1][1] = P11 - K1 * (H0 * P01 + H1 * P11);
 }
 
-void KF_SetQ_Continuous(KF_TypeDef *kf, float sigma_a, float dt) {
+void KF_SetQ_Continuous(KF_TypeDef *kf, float sigma_a, float dt) {		//pg. 166
 	float dt2 = dt * dt;
 	float dt3 = dt2 * dt;
 	float dt4 = dt2 * dt2;
@@ -114,7 +114,7 @@ void KF_SetQ_Continuous(KF_TypeDef *kf, float sigma_a, float dt) {
 	kf->Q[1][1] = dt3 * (1.0f / 3.0f) * q;
 }
 
-void KF_SetQ_Discrete(KF_TypeDef *kf, float sigma_a, float dt) {
+void KF_SetQ_Discrete(KF_TypeDef *kf, float sigma_a, float dt) {		//pg. 163
 	float dt2 = dt * dt;
 	float dt3 = dt2 * dt;
 	float dt4 = dt2 * dt2;

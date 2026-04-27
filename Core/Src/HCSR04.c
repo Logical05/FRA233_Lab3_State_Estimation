@@ -16,7 +16,7 @@ void HCSR04_Init(HCSR04_TypeDef *hcsr) {
 	_State = GPIO_PIN_RESET;
 	_Distance = 0.0f;
 
-	__HAL_TIM_SET_AUTORELOAD(_HCSR->TRIG_PWM_Timer.htim, 59999);
+	__HAL_TIM_SET_AUTORELOAD(_HCSR->TRIG_PWM_Timer.htim, 59999);	// 16 Hz
 	__HAL_TIM_SET_COMPARE(_HCSR->TRIG_PWM_Timer.htim,
 			_HCSR->TRIG_PWM_Timer.TIM_Channal, 10);
 

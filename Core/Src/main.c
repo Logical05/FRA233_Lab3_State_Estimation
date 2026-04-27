@@ -20,15 +20,17 @@
 #define DT 1e-3f
 #define BOX_MASS 0.155f
 #define NUT_MASS 0.038f
-#define NUT_NUM 5
+
+// Editable
+#define NUT_NUM 1
 #define K_SPRING 28.13852387f
-#define C_DAMPING 0.083941996f
+#define C_DAMPING 0.001f
 
 //#define X_EQ 9.706151498f // 5 Nut
 //#define X_EQ 11.06710543f // 4 Nut
 //#define X_EQ 12.78103434f // 3 Nut
 //#define X_EQ 14.33077597f // 2 Nut
-//#define X_EQ 15.78296892f // 1 Nut
+//#define X_EQ 15.78296892f   // 1 Nut
 
 /* USER CODE END PD */
 
@@ -42,17 +44,19 @@
 /* USER CODE BEGIN PV */
 HCSR04_TypeDef hcsr = { 0 };
 float distance = 0;
-float kf_distance[2] = { 0 };
-float tune_q[2] = { 1e-7f, 0.048f };
+float kf_distance[4] = { 0 };
+KF_TypeDef kf[4] = { 0 };
 
-KF_TypeDef kf[2] = { 0 };
+// Editable
+float tune_q[4] = { 1e-3f, 1e-6f, 1e-9f, 0.048f };
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void KF_Constant_Init(KF_TypeDef*, float, float);
-void KF_MSD_Init(KF_TypeDef*, float, float);
+void KF_Constant_Init(KF_TypeDef*, float, float);		// Velocity = 0
+void KF_MSD_Init(KF_TypeDef*, float, float);	// Mass-Spring-Damper : u = 0
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -100,8 +104,10 @@ int main(void) {
 
 	// Kalman Filter
 	HAL_TIM_Base_Start_IT(&htim4);	// 1000Hz
-	KF_Constant_Init(&kf[0], tune_q[0], 6.04E-05f);
-//	KF_MSD_Init(&kf[1], tune_q[1], 6.04E-05f);
+	KF_Constant_Init(&kf[0], tune_q[0], 0.010799226f);
+	KF_Constant_Init(&kf[1], tune_q[1], 0.010799226f);
+	KF_Constant_Init(&kf[2], tune_q[2], 0.010799226f);
+//	KF_MSD_Init(&kf[3], tune_q[3], 0.010799226f);
 
 	/* USER CODE END 2 */
 
@@ -165,18 +171,26 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim4) {
 		kf[0].Q[0][0] = tune_q[0];
-//		KF_SetQ_Discrete(&kf[1], tune_q[1], DT);
+		kf[1].Q[0][0] = tune_q[1];
+		kf[2].Q[0][0] = tune_q[2];
+//		KF_SetQ_Discrete(&kf[3], tune_q[3], DT);
 
 		KF_Predict(&kf[0]);
-//		KF_Predict(&kf[1]);
+		KF_Predict(&kf[1]);
+		KF_Predict(&kf[2]);
+//		KF_Predict(&kf[3]);
 
 		distance = HCSR04_Read();
 
 		KF_Update(&kf[0], distance);
-//		KF_Update(&kf[1], distance - X_EQ);
+		KF_Update(&kf[1], distance);
+		KF_Update(&kf[2], distance);
+//		KF_Update(&kf[3], distance - X_EQ);
 
 		kf_distance[0] = kf[0].x[0];
-//		kf_distance[1] = kf[1].x[0] + X_EQ;
+		kf_distance[1] = kf[1].x[0];
+		kf_distance[2] = kf[2].x[0];
+//		kf_distance[3] = kf[3].x[0] + X_EQ;
 	}
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
